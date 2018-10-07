@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from sklearn.model_selection import train_test_split, StratifiedKFold , KFold
 import torch.nn.functional as F
+from fastai import core
 
 class Unet34(nn.Module):
     def __init__(self, rn):
