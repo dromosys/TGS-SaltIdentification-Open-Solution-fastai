@@ -6,14 +6,14 @@ class Unet34(nn.Module):
         super().__init__()
         self.rn = rn
         self.sfs = [SaveFeatures(rn[i]) for i in [2,4,5,6]]
-        self.up1 = UnetBlock(512,256,256)
-        self.up2 = UnetBlock(256,128,256)
-        self.up3 = UnetBlock(256,64,256)
-        self.up4 = UnetBlock(256,64,256)
-        self.up5 = nn.ConvTranspose2d(256, 1, 2, stride=2)
+        self.up1 = UnetBlock(512,256,128)
+        self.up2 = UnetBlock(128,128,128)
+        self.up3 = UnetBlock(128,64,128)
+        self.up4 = UnetBlock(128,64,128)
+        self.up5 = nn.ConvTranspose2d(128, 1, 2, stride=2)
         
-    def forward(self,x):
-        x = F.dropout(F.relu(self.rn(x)),0.2)
+    def forward(self,img,depth):
+        x = F.relu(self.rn(img))
         x = self.up1(x, self.sfs[3].features)
         x = self.up2(x, self.sfs[2].features)
         x = self.up3(x, self.sfs[1].features)
