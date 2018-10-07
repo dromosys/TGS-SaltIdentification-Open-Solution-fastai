@@ -1,3 +1,6 @@
+import torch
+import torch.nn as nn
+
 class Unet34(nn.Module):
     def __init__(self, rn):
         super().__init__()
