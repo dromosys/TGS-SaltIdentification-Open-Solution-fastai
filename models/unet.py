@@ -43,3 +43,12 @@ class UnetBlock(nn.Module):
         x_p = self.x_conv(x_p)
         cat_p = torch.cat([up_p,x_p], dim=1)
         return self.bn(F.relu(cat_p))
+    
+class UnetModel():
+    def __init__(self,model,lr_cut,name='unet'):
+        self.model,self.name = model,name
+        self.lr_cut = lr_cut
+
+    def get_layer_groups(self, precompute):
+        lgs = list(split_by_idxs(children(self.model.rn), [self.lr_cut]))
+        return lgs + [children(self.model)[1:]]
