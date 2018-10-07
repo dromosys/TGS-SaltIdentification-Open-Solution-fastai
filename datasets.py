@@ -1,3 +1,4 @@
+from fastai.dataset import *
 
 class DepthDataset(Dataset):
     def __init__(self,ds,dpth_dict):
